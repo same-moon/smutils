@@ -1,0 +1,16 @@
+import re, sys
+
+acc = 0
+fmt = '%d'
+for line in sys.stdin:
+    m = re.search(r'([+-]?\d+(\.\d+)?)', line)
+    if not m:
+        continue
+    num = m.group(1)
+    if m.group(2):
+        acc += float(m.group(1))
+        fmt = '%.3f'
+    else:
+        acc += int(m.group(1))
+
+sys.stdout.write(fmt % (acc))
