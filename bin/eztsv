@@ -1,0 +1,68 @@
+#!/usr/bin/env python
+
+import os
+import re
+import shutil
+import sys
+import subprocess
+import tempfile
+import time
+
+tempdir = tempfile.mkdtemp()
+fn = os.path.join(tempdir, "input-for-gnuplot")
+f = open(fn, "w")
+
+def fatal(msg):
+    print msg
+    sys.exit(1)
+
+def main():
+
+    def send(txt):
+        proc.stdin.write(txt)
+
+    proc = subprocess.Popen(["gnuplot", "-persist"], 
+                            stdin=subprocess.PIPE,
+                            stdout=subprocess.PIPE)
+
+    send('set xdata time\n')
+    send('set timefmt "%s"\n')
+    send('set format x "%b-%d-%H:%M"\n')
+    send('set xtics\n')
+
+    lastwrite = time.time()
+    nfields = -1
+    while 1:
+        line = sys.stdin.readline()
+        if not line:
+            break
+        if not re.match("^[0-9]+", line.strip()):
+            print("ignoring line %s" % (line))
+            continue
+        toks = line.strip().split()
+        if nfields == -1:
+            nfields = len(toks)
+        else:
+            if nfields != len(toks):
+                fatal("nfields changed at line -->%s<--" % (line))
+        line2 = ' '.join(toks) 
+        f.write(line2)
+        f.write("\n")
+        if time.time() - lastwrite > 10:
+            f.flush()
+            txt = 'plot'
+            for n in range(nfields - 1):
+                if n > 0:
+                    txt += ','
+                txt += ' "%s" using 1:%d with linespoints' % (fn, n+2)
+            txt += '\n'
+            send(txt)
+
+    proc.stdin.close()
+    rc = proc.wait()
+
+try:
+    main()
+except KeyboardInterrupt:
+    pass
+shutil.rmtree(tempdir)
