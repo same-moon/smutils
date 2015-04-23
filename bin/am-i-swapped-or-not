@@ -10,8 +10,9 @@ while True:
         for line in f:
             if line.startswith('pgmajfault '):
                 faults = int(line.split()[1])
-                if not base:
+                if base is None:
                     base = faults
                 sys.stdout.write("%d %d\n" % (time.time(), faults - base))
                 sys.stdout.flush()
+                base = faults
     time.sleep(10)
