@@ -25,6 +25,7 @@ def main():
                             stdin=subprocess.PIPE,
                             stdout=subprocess.PIPE)
 
+    send('set terminal x11\n')
     send('set xdata time\n')
     send('set timefmt "%s"\n')
     send('set format x "%b-%d-%H:%M"\n')
