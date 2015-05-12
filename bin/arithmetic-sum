@@ -4,7 +4,7 @@ import re, sys
 
 acc = 0
 fmt = '%d'
-for line in sys.stdin:
+for line in sys.stdin.readlines():
     m = re.search(r'([+-]?\d+(\.\d+)?)', line)
     if not m:
         continue
@@ -15,4 +15,4 @@ for line in sys.stdin:
     else:
         acc += int(m.group(1))
 
-sys.stdout.write(fmt % (acc))
+sys.stdout.write(fmt % (acc) + "\n")
