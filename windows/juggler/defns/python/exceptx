@@ -1,0 +1,2 @@
+except Exception as e:
+    msg = "got exception of -->%s<--: traceback is -->%s<--" % (e, traceback.format_exc())\e
