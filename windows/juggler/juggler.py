@@ -57,24 +57,16 @@ def get_single_expansion(editor, lang, abbrev, expansion):
             line = line.replace('\t','`t')
             cblk += '  tempf.Write("%s")\n' % (line)
             continue
+        assert editor == 'emacs'
         line = line.replace('!', 'TEMP-BANG-PLACEHOLDER')
         line = line.replace('#', 'TEMP-POUND-PLACEHOLDER')
         line = line.replace('+', 'TEMP-PLUS-PLACEHOLDER')
         line = line.replace('^', 'TEMP-CARET-PLACEHOLDER')
         line = line.replace('{', 'TEMP-LBRACE-PLACEHOLDER')
         line = line.replace('}', 'TEMP-RBRACE-PLACEHOLDER')
-        if editor == 'emacs':
-            line = line.replace('\n', '^j!xjuggler-insert-start-of-line-context{Enter}')
-        else:
-            assert editor == 'VS'
-            # last backspace is to counteract the extra space in the clipboard (which was done so shift-home works reliably)
-            line = line.replace('\n', '{Enter}+{Backspace}{Backspace}^v{Backspace}')
-        # line = line.replace('<in>', '    ')
-        # line = line.replace('\\l', '{Left}')
-        # line = line.replace('\\r', '{Right}')
-        # line = line.replace('\\u', '{Up}')
-        # line = line.replace('\\d', '{Down}')
+        line = line.replace('\n', '^j!xjuggler-insert-start-of-line-context{Enter}')
         line = line.replace(' ', '{Space}')
+        line = line.replace('%', '`%')
         line = line.replace('TEMP-BANG-PLACEHOLDER', '{!}')
         line = line.replace('TEMP-POUND-PLACEHOLDER', '{#}')
         line = line.replace('TEMP-PLUS-PLACEHOLDER', '{+}')
@@ -83,8 +75,7 @@ def get_single_expansion(editor, lang, abbrev, expansion):
         line = line.replace('TEMP-RBRACE-PLACEHOLDER', '{}}')
 
         # make emacs' : less electric
-        if editor == 'emacs':
-            line = line.replace(':', '^q:')
+        line = line.replace(':', '^q:')
 
         if '\\e' in line:
             pos = line.find('\\e')
@@ -100,7 +91,7 @@ def get_single_expansion(editor, lang, abbrev, expansion):
         if editor == 'emacs':
             cblk += '  SendInput, !xjuggler-goto-endpoint-marker{Enter}\n'
         elif editor == 'VS':
-            cblk += '  SendInput, ^F\e!p!p{Esc}{Backspace}\n'
+            cblk += '  SendInput, ^F\e`tCurrent Document!p!p{Esc}{Backspace}\n'
     if editor == 'VS' and expansion_has_newline:
         cblk += '  Clipboard = %ClipboardOld%\n'  
 

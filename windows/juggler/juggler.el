@@ -18,3 +18,5 @@
 (defun juggler-insert-start-of-line-context ()
   (interactive)
   (insert juggler-start-of-line-context))
+
+(provide 'juggler)
