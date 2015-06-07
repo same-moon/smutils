@@ -11,2629 +11,296 @@ JugglerCheckForRefresh:
     return
 
 ;; JUGGLER CONTROL BLOCK START
+Handle_emacs(lang, abbrev)
+{
+  AutoTrim Off
+  ClipboardOld = %ClipboardAll%
+  Clipboard =  ; Enable ClipWait to work
+  SendInput, !xjuggler-copy-start-of-line-context{Enter}
+
+  ClipWait 2
+  if ErrorLevel
+  {
+    MsgBox, first ClipWait timed out.
+    return
+  }
+  Contents := Clipboard
+  StartOfLineContext := Contents
+  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
+  FileContents := "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\" . lang . "\" . abbrev . "`n" . StartOfLineContext
+  Clipboard =  ; Enable ClipWait to work
+  FileAppend, %FileContents%, %Fn%
+  ClipWait 2
+  if ErrorLevel
+  {
+    MsgBox, second ClipWait timed out.
+    return
+  }
+  Send, ^y
+  Sleep 500
+  Clipboard = %ClipboardOld%
+
+  LapFile := Fn . ".lap"
+  IfExist, %LapFile%
+  {
+;    MsgBox, Reading Lapfile of %LapFile%
+    FileReadLine, LeftArrowPresses, %LapFile%, 1
+;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
+    Loop %LeftArrowPresses% {
+      SendInput {Left}
+    }
+  }
+}
+Handle_VS(lang, abbrev)
+{
+  AutoTrim Off
+  ClipboardOld = %ClipboardAll%
+  Clipboard =  ; Enable ClipWait to work
+  Send, {Space}+{Home}+{Home}^c
+
+  ClipWait 2
+  if ErrorLevel
+  {
+    MsgBox, first ClipWait timed out.
+    return
+  }
+  Contents := Clipboard
+  StartOfLineContext := SubStr(Contents, 1, -1)
+  Send, ^v{Backspace}
+  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
+  FileContents := "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\" . lang . "\" . abbrev . "`n" . StartOfLineContext
+  Clipboard =  ; Enable ClipWait to work
+  FileAppend, %FileContents%, %Fn%
+  ClipWait 2
+  if ErrorLevel
+  {
+    MsgBox, second ClipWait timed out.
+    return
+  }
+  Send, ^v
+  Sleep 500
+  Clipboard = %ClipboardOld%
+
+  LapFile := Fn . ".lap"
+  IfExist, %LapFile%
+  {
+;    MsgBox, Reading Lapfile of %LapFile%
+    FileReadLine, LeftArrowPresses, %LapFile%, 1
+;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
+    Loop %LeftArrowPresses% {
+      SendInput {Left}
+    }
+  }
+}
 
 
 ;; Begin python
 #IfWinActive Emacs/Python
 :R:acceptx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\acceptx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "acceptx")
   return
 :R:argparseargx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\argparseargx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "argparseargx")
   return
 :R:argparseoptx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\argparseoptx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "argparseoptx")
   return
 :R:argparsex::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\argparsex`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "argparsex")
   return
 :R:classx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\classx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "classx")
   return
 :R:elapsedx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\elapsedx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "elapsedx")
   return
 :R:elseifx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\elseifx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "elseifx")
   return
 :R:elsex::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\elsex`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "elsex")
   return
 :R:exceptx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\exceptx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "exceptx")
   return
 :R:fileexistsx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\fileexistsx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "fileexistsx")
   return
 :R:forkx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\forkx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "forkx")
   return
 :R:forx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\forx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "forx")
   return
 :R:funcx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\funcx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "funcx")
   return
 :R:hostnamex::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\hostnamex`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "hostnamex")
   return
 :R:ifx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\ifx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "ifx")
   return
 :R:importx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\importx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "importx")
   return
 :R:joinx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\joinx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "joinx")
   return
 :R:mainx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\mainx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "mainx")
   return
 :R:mkdirx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\mkdirx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "mkdirx")
   return
 :R:pdbx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\pdbx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "pdbx")
   return
 :R:printx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\printx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "printx")
   return
 :R:raisex::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\raisex`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "raisex")
   return
 :R:rmtreex::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\rmtreex`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "rmtreex")
   return
 :R:serversocketx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\serversocketx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "serversocketx")
   return
 :R:signalx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\signalx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "signalx")
   return
 :R:sleepx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\sleepx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "sleepx")
   return
 :R:socketx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\socketx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "socketx")
   return
 :R:t1x::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\t1x`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "t1x")
   return
 :R:t2x::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\t2x`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "t2x")
   return
 :R:tempdirx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\tempdirx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "tempdirx")
   return
 :R:threadclassx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\threadclassx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "threadclassx")
   return
 :R:timex::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\timex`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "timex")
   return
 :R:tryx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\tryx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "tryx")
   return
 :R:unittestx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\unittestx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("python", "unittestx")
   return
 #IfWinActive
 #IfWinActive ahk_exe devenv.exe
 :R:acceptx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\acceptx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "acceptx")
   return
 :R:argparseargx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\argparseargx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "argparseargx")
   return
 :R:argparseoptx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\argparseoptx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "argparseoptx")
   return
 :R:argparsex::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\argparsex`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "argparsex")
   return
 :R:classx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\classx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "classx")
   return
 :R:elapsedx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\elapsedx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "elapsedx")
   return
 :R:elseifx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\elseifx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "elseifx")
   return
 :R:elsex::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\elsex`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "elsex")
   return
 :R:exceptx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\exceptx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "exceptx")
   return
 :R:fileexistsx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\fileexistsx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "fileexistsx")
   return
 :R:forkx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\forkx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "forkx")
   return
 :R:forx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\forx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "forx")
   return
 :R:funcx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\funcx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "funcx")
   return
 :R:hostnamex::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\hostnamex`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "hostnamex")
   return
 :R:ifx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\ifx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "ifx")
   return
 :R:importx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\importx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "importx")
   return
 :R:joinx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\joinx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "joinx")
   return
 :R:mainx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\mainx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "mainx")
   return
 :R:mkdirx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\mkdirx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "mkdirx")
   return
 :R:pdbx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\pdbx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "pdbx")
   return
 :R:printx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\printx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "printx")
   return
 :R:raisex::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\raisex`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "raisex")
   return
 :R:rmtreex::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\rmtreex`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "rmtreex")
   return
 :R:serversocketx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\serversocketx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "serversocketx")
   return
 :R:signalx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\signalx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "signalx")
   return
 :R:sleepx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\sleepx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "sleepx")
   return
 :R:socketx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\socketx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "socketx")
   return
 :R:t1x::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\t1x`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "t1x")
   return
 :R:t2x::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\t2x`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "t2x")
   return
 :R:tempdirx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\tempdirx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "tempdirx")
   return
 :R:threadclassx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\threadclassx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "threadclassx")
   return
 :R:timex::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\timex`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "timex")
   return
 :R:tryx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\tryx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "tryx")
   return
 :R:unittestx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\python\unittestx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("python", "unittestx")
   return
 #IfWinActive
 
@@ -2641,314 +308,30 @@ JugglerCheckForRefresh:
 ;; Begin globals
 #IfWinActive Emacs/
 :R:arrowsx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\global\arrowsx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("global", "arrowsx")
   return
 :R:awkcx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\global\awkcx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("global", "awkcx")
   return
 :R:htmlx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\global\htmlx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("global", "htmlx")
   return
 :R:shebangpyx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  SendInput, !xjuggler-copy-start-of-line-context{Enter}
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := Contents
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\global\shebangpyx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^y
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_emacs("global", "shebangpyx")
   return
 #IfWinActive
 #IfWinActive ahk_exe devenv.exe
 :R:arrowsx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\global\arrowsx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("global", "arrowsx")
   return
 :R:awkcx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\global\awkcx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("global", "awkcx")
   return
 :R:htmlx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\global\htmlx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("global", "htmlx")
   return
 :R:shebangpyx::
-  AutoTrim Off
-  ClipboardOld = %ClipboardAll%
-  Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-  Contents := Clipboard
-  StartOfLineContext := SubStr(Contents, 1, -1)
-  Send, ^v{Backspace}
-  Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns\global\shebangpyx`n" . StartOfLineContext
-  Clipboard =  ; Enable ClipWait to work
-  FileAppend, %FileContents%, %Fn%
-  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-  Send, ^v
-  Sleep 1000
-  Clipboard = %ClipboardOld%
-
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
+  Handle_VS("global", "shebangpyx")
   return
 #IfWinActive
 ;; JUGGLER CONTROL BLOCK STOP

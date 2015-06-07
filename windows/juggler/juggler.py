@@ -1,10 +1,17 @@
 import os, sys, collections, shutil, subprocess, threading
 
+# -------------------------- possible customization section - start
 # os.environ['JUGGLER_DEFNS'] = r'c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\defns'
 # os.environ['JUGGLER_AUTOHOTKEY_SCRIPT'] = r'c:\Users\ruttbe\Documents\GitHub\smutils\windows\juggler\ahk\juggler.ahk'
+# -------------------------- possible customization section - end
 
 JUGGLER_DEFNS = os.getenv("JUGGLER_DEFNS")
 JUGGLER_AUTOHOTKEY_SCRIPT = os.getenv("JUGGLER_AUTOHOTKEY_SCRIPT")
+
+VS_window_signature = 'ahk_exe devenv.exe'
+
+# --------------------------
+
 
 assert JUGGLER_DEFNS
 assert JUGGLER_AUTOHOTKEY_SCRIPT
@@ -22,66 +29,10 @@ def process_lang(lang):
             autohotkey_defns[lang][fn] = txt
     print autohotkey_defns
 
-def get_single_expansion(editor, lang, abbrev, expansion):
+def get_single_expansion(editor, lang, abbrev):
     cblk = ''
     cblk += ':R:%s::\n' % (abbrev)
-    expansion_has_newline = '\n' in expansion
-    cblk += '  AutoTrim Off\n'
-    CLIPWAIT1 = """  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait1 timed out.
-    return
-  }
-"""
-    CLIPWAIT2 = """  ClipWait 2
-  if ErrorLevel
-  {
-    MsgBox, ClipWait2 timed out.
-    return
-  }
-"""
-    cblk += '  ClipboardOld = %ClipboardAll%\n'
-    cblk += '  Clipboard =  ; Enable ClipWait to work\n'
-    if editor == 'emacs':
-        cblk += '  SendInput, !xjuggler-copy-start-of-line-context{Enter}\n'
-    else:
-        cblk += '  Send, {Space}+{Home}+{Home}^c\n'
-    cblk += CLIPWAIT1
-    cblk += '  Contents := Clipboard\n'
-    if editor == 'emacs':
-        cblk += '  StartOfLineContext := Contents\n'
-    else:
-        cblk += '  StartOfLineContext := SubStr(Contents, 1, -1)\n'
-    if editor == 'VS':
-        cblk += '  Send, ^v{Backspace}\n'
-    cblk += '  Fn := "c:\\\\temp\\\\jugglerbot\\\\triggers\\\\" . A_Now\n'
-    cblk += '  FileContents := "%s`n" . StartOfLineContext\n' % \
-            (os.path.join(JUGGLER_DEFNS, lang, abbrev))
-    # cblk += '  FileContents := "foo`n" . StartOfLineContext\n'
-    cblk += '  Clipboard =  ; Enable ClipWait to work\n'
-    cblk += '  FileAppend, %FileContents%, %Fn%\n'
-    cblk += CLIPWAIT2
-    if editor == 'emacs':
-        cblk += '  Send, ^y\n'
-    else:
-        cblk += '  Send, ^v\n'
-    cblk += '  Sleep 1000\n' # wait for paste op to take effect 
-    cblk += '  Clipboard = %ClipboardOld%\n'
-
-    # figure out how many spaces to go back
-    cblk += """
-  LapFile := Fn . ".lap"
-  IfExist, %LapFile%
-  {
-;    MsgBox, Reading Lapfile of %LapFile%
-    FileReadLine, LeftArrowPresses, %LapFile%, 1
-;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
-    Loop %LeftArrowPresses% {
-      SendInput {Left}
-    }
-  }
-"""    
+    cblk += '  Handle_%s("%s", "%s")\n' % (editor, lang, abbrev)
     cblk += '  return\n'
     return cblk
 
@@ -107,31 +58,92 @@ def writeout_ahk_scripts():
     langs = list(sorted(autohotkey_defns.keys()))
     langs.remove('global')
     langs.append('global')
+
+    def createAutohotkeyFunc(editor):
+        out = 'Handle_%s(lang, abbrev)' % (editor)
+        out += """
+{
+  AutoTrim Off
+  ClipboardOld = %ClipboardAll%
+  Clipboard =  ; Enable ClipWait to work
+"""
+        if editor == 'emacs':
+            out += '  SendInput, !xjuggler-copy-start-of-line-context{Enter}\n'
+        elif editor == 'VS':
+            out += '  Send, {Space}+{Home}+{Home}^c\n'
+        out += """
+  ClipWait 2
+  if ErrorLevel
+  {
+    MsgBox, first ClipWait timed out.
+    return
+  }
+  Contents := Clipboard
+"""
+        if editor == 'emacs':
+            out += '  StartOfLineContext := Contents\n'
+        elif editor == 'VS':
+            out += '  StartOfLineContext := SubStr(Contents, 1, -1)\n'
+            out += '  Send, ^v{Backspace}\n'
+        out += '  Fn := "c:\\\\temp\\\\jugglerbot\\\\triggers\\\\" . A_Now\n'
+        out += '  FileContents := "%s\\" . lang . "\\" . abbrev . "`n" . StartOfLineContext\n' % \
+               (os.path.join(JUGGLER_DEFNS).replace('\\','\\\\'))
+        out += '  Clipboard =  ; Enable ClipWait to work\n'
+        out += '  FileAppend, %FileContents%, %Fn%\n'
+        out += """  ClipWait 2
+  if ErrorLevel
+  {
+    MsgBox, second ClipWait timed out.
+    return
+  }
+"""
+        if editor == 'emacs':
+            out += '  Send, ^y\n'
+        else:
+            out += '  Send, ^v\n'
+        out += '  Sleep 500\n' # wait for paste op to take effect 
+        out += '  Clipboard = %ClipboardOld%\n'
+
+        # figure out how many spaces to go back
+        out += """
+  LapFile := Fn . ".lap"
+  IfExist, %LapFile%
+  {
+;    MsgBox, Reading Lapfile of %LapFile%
+    FileReadLine, LeftArrowPresses, %LapFile%, 1
+;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
+    Loop %LeftArrowPresses% {
+      SendInput {Left}
+    }
+  }
+}
+"""    
+        return out
+
+    cblk += createAutohotkeyFunc('emacs')
+    cblk += createAutohotkeyFunc('VS')
+
     for lang in langs:
         abbrevs = autohotkey_defns[lang]
         if lang == 'python':
             cblk += '\n\n;; Begin python\n'
             cblk += '#IfWinActive Emacs/Python\n'
             for abbrev in sorted(abbrevs.keys()):
-                expansion = abbrevs[abbrev]
-                cblk += get_single_expansion('emacs', lang, abbrev, expansion)
+                cblk += get_single_expansion('emacs', lang, abbrev)
             cblk += '#IfWinActive\n'
-            cblk += '#IfWinActive ahk_exe devenv.exe\n'
+            cblk += '#IfWinActive %s\n' % (VS_window_signature)
             for abbrev in sorted(abbrevs.keys()):
-                expansion = abbrevs[abbrev]
-                cblk += get_single_expansion('VS', lang, abbrev, expansion)
+                cblk += get_single_expansion('VS', lang, abbrev)
             cblk += '#IfWinActive\n'
         elif lang == 'global':
             cblk += '\n\n;; Begin globals\n'
             cblk += '#IfWinActive Emacs/\n'
             for abbrev in sorted(abbrevs.keys()):
-                expansion = abbrevs[abbrev]
-                cblk += get_single_expansion('emacs', lang, abbrev, expansion)
+                cblk += get_single_expansion('emacs', lang, abbrev)
             cblk += '#IfWinActive\n'
-            cblk += '#IfWinActive ahk_exe devenv.exe\n'
+            cblk += '#IfWinActive %s\n' % (VS_window_signature)
             for abbrev in sorted(abbrevs.keys()):
-                expansion = abbrevs[abbrev]
-                cblk += get_single_expansion('VS', lang, abbrev, expansion)
+                cblk += get_single_expansion('VS', lang, abbrev)
             cblk += '#IfWinActive\n'
 
     print cblk
