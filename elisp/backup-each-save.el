@@ -1,10 +1,8 @@
-
-<!-- saved from url=(0059)http://www.emacswiki.org/emacs/download/backup-each-save.el -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body><pre style="word-wrap: break-word; white-space: pre-wrap;">;;; backup-each-save.el --- backup each savepoint of a file
+;;; backup-each-save.el --- backup each savepoint of a file
 
 ;; Copyright (C) 2004  Free Software Foundation, Inc.
 
-;; Author: Benjamin Rutt &lt;brutt@bloomington.in.us&gt;
+;; Author: Benjamin Rutt <brutt@bloomington.in.us>
 ;; Version: 1.4
 
 ;; This file is free software; you can redistribute it and/or modify
@@ -63,12 +61,12 @@
 ;; Features/bug reports/enhancements welcome. -- Benjamin Rutt
 
 ;;; ChangeLog
-;; v1.0 -&gt; v1.1:  added backup-each-save-filter-function
-;; v1.1 -&gt; v1.2:  i)  added backup-each-save-size-limit
-;;                ii) fixed "Local Variables" docs, which was inadvertently
-;;                    being activated
-;; v1.2 -&gt; v1.3:  fix for some emacsen not having `file-remote-p'
-;; v1.3 -&gt; v1.4: added footer and autoload
+;; v1.0 -> v1.1:  added backup-each-save-filter-function
+;; v1.1 -> v1.2:  i)  added backup-each-save-size-limit
+;;       >     ii) fixed "Local Variables" docs, which was inadvertently
+;;       >         being activated
+;; v1.2 -> v1.3:  fix for some emacsen not having `file-remote-p'
+;; v1.3 -> v1.4: added footer and autoload
 
 ;;; Code:
 
@@ -114,7 +112,7 @@ on the system \"/user@host:\"."
 		   (not (file-remote-p bfn)))
 	       (funcall backup-each-save-filter-function bfn)
 	       (or (not backup-each-save-size-limit)
-		   (&lt;= (buffer-size) backup-each-save-size-limit)))
+		   (<= (buffer-size) backup-each-save-size-limit)))
       (copy-file bfn (backup-each-save-compute-location bfn) t t t))))
 
 (defun backup-each-save-compute-location (filename)
