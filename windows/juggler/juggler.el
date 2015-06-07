@@ -15,6 +15,11 @@
   (setq juggler-start-of-line-context (buffer-substring
 				       (line-beginning-position)
 				       (point))))
+(defun juggler-copy-start-of-line-context ()
+  (interactive)
+  (kill-new (buffer-substring
+	     (line-beginning-position)
+	     (point))))
 (defun juggler-insert-start-of-line-context ()
   (interactive)
   (insert juggler-start-of-line-context))

@@ -25,76 +25,63 @@ def process_lang(lang):
 def get_single_expansion(editor, lang, abbrev, expansion):
     cblk = ''
     cblk += ':R:%s::\n' % (abbrev)
-    endpoint = False
     expansion_has_newline = '\n' in expansion
-    if editor == 'emacs' and expansion_has_newline:
-        cblk += '  SendInput, !xjuggler-get-start-of-line-context{Enter}\n'
-    elif editor == 'VS' and expansion_has_newline:
-        cblk += '  AutoTrim Off\n'
-        cblk += '  ClipboardOld = %ClipboardAll%\n'
-        cblk += '  Clipboard =  ; Enable ClipWait to work\n'
-        cblk += '  SendInput, {Space}+{Home}+{Home}^c\n'
-        cblk += '  ClipWait 1\n'
-        cblk += '  if ErrorLevel  ; ClipWait timed out.\n    return\n'
-        cblk += '  Contents := Clipboard\n'
-        cblk += '  Contents2 := SubStr(Contents, 1, -1)\n'
-        cblk += '  SendInput, ^v{Backspace}\n'
-    tempfn = r'c:\temp\juggler-for-VS.txt'
+    cblk += '  AutoTrim Off\n'
+    CLIPWAIT1 = """  ClipWait 2
+  if ErrorLevel
+  {
+    MsgBox, ClipWait1 timed out.
+    return
+  }
+"""
+    CLIPWAIT2 = """  ClipWait 2
+  if ErrorLevel
+  {
+    MsgBox, ClipWait2 timed out.
+    return
+  }
+"""
+    cblk += '  ClipboardOld = %ClipboardAll%\n'
+    cblk += '  Clipboard =  ; Enable ClipWait to work\n'
+    if editor == 'emacs':
+        cblk += '  SendInput, !xjuggler-copy-start-of-line-context{Enter}\n'
+    else:
+        cblk += '  Send, {Space}+{Home}+{Home}^c\n'
+    cblk += CLIPWAIT1
+    cblk += '  Contents := Clipboard\n'
+    if editor == 'emacs':
+        cblk += '  StartOfLineContext := Contents\n'
+    else:
+        cblk += '  StartOfLineContext := SubStr(Contents, 1, -1)\n'
     if editor == 'VS':
-        cblk += '  tempf := FileOpen("%s", "w")\n' % (tempfn)
-    loop_steps = 0
-    for line in expansion.splitlines(True):
-        loop_steps += 1
-        if '\\e' in line:
-            endpoint = True
-        if editor == 'VS': # augment temp file to insert literally
-            if loop_steps > 1:
-                cblk += '  tempf.Write(Contents2)\n'
-            line = line.replace('`','``')
-            line = line.replace('"','""')
-            line = line.replace('\r\n','`r`n')
-            line = line.replace('\n','`r`n')
-            line = line.replace('\t','`t')
-            cblk += '  tempf.Write("%s")\n' % (line)
-            continue
-        assert editor == 'emacs'
-        line = line.replace('!', 'TEMP-BANG-PLACEHOLDER')
-        line = line.replace('#', 'TEMP-POUND-PLACEHOLDER')
-        line = line.replace('+', 'TEMP-PLUS-PLACEHOLDER')
-        line = line.replace('^', 'TEMP-CARET-PLACEHOLDER')
-        line = line.replace('{', 'TEMP-LBRACE-PLACEHOLDER')
-        line = line.replace('}', 'TEMP-RBRACE-PLACEHOLDER')
-        line = line.replace('\n', '^j!xjuggler-insert-start-of-line-context{Enter}')
-        line = line.replace(' ', '{Space}')
-        line = line.replace('%', '`%')
-        line = line.replace('TEMP-BANG-PLACEHOLDER', '{!}')
-        line = line.replace('TEMP-POUND-PLACEHOLDER', '{#}')
-        line = line.replace('TEMP-PLUS-PLACEHOLDER', '{+}')
-        line = line.replace('TEMP-CARET-PLACEHOLDER', '{^}')
-        line = line.replace('TEMP-LBRACE-PLACEHOLDER', '{{}')
-        line = line.replace('TEMP-RBRACE-PLACEHOLDER', '{}}')
+        cblk += '  Send, ^v{Backspace}\n'
+    cblk += '  Fn := "c:\\\\temp\\\\jugglerbot\\\\triggers\\\\" . A_Now\n'
+    cblk += '  FileContents := "%s`n" . StartOfLineContext\n' % \
+            (os.path.join(JUGGLER_DEFNS, lang, abbrev))
+    # cblk += '  FileContents := "foo`n" . StartOfLineContext\n'
+    cblk += '  Clipboard =  ; Enable ClipWait to work\n'
+    cblk += '  FileAppend, %FileContents%, %Fn%\n'
+    cblk += CLIPWAIT2
+    if editor == 'emacs':
+        cblk += '  Send, ^y\n'
+    else:
+        cblk += '  Send, ^v\n'
+    cblk += '  Sleep 1000\n' # wait for paste op to take effect 
+    cblk += '  Clipboard = %ClipboardOld%\n'
 
-        # make emacs' : less electric
-        line = line.replace(':', '^q:')
-
-        if '\\e' in line:
-            pos = line.find('\\e')
-            if editor == 'emacs':
-                line = line[0:pos] + '!xjuggler-make-endpoint-marker{Enter}' + line[pos+2:]
-        cblk += '  SendInput, ' + line + '\n'
-    if editor == 'VS':
-        cblk += '  tempf.Close()\n'
-        cblk += '  SendInput, !ex\n'
-        cblk += '  Sleep, 500\n'
-        cblk += '  SendInput, %s{Enter}\n' % (tempfn)
-    if endpoint:
-        if editor == 'emacs':
-            cblk += '  SendInput, !xjuggler-goto-endpoint-marker{Enter}\n'
-        elif editor == 'VS':
-            cblk += '  SendInput, ^F\e`tCurrent Document!p!p{Esc}{Backspace}\n'
-    if editor == 'VS' and expansion_has_newline:
-        cblk += '  Clipboard = %ClipboardOld%\n'  
-
+    # figure out how many spaces to go back
+    cblk += """
+  LapFile := Fn . ".lap"
+  IfExist, %LapFile%
+  {
+;    MsgBox, Reading Lapfile of %LapFile%
+    FileReadLine, LeftArrowPresses, %LapFile%, 1
+;    MsgBox, LeftArrowPresses is %LeftArrowPresses%
+    Loop %LeftArrowPresses% {
+      SendInput {Left}
+    }
+  }
+"""    
     cblk += '  return\n'
     return cblk
 
