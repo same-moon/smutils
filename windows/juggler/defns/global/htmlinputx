@@ -1,0 +1,3 @@
+<input type="text" id="foo" name="bar" value="baz">
+<input type="hidden" id="foo" name="bar" value="baz">
+<input type="submit" id="foo" name="bar" value="baz">
