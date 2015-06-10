@@ -20,11 +20,11 @@ JUGGLERBOT_TRIGGER_DIR = os.path.join(JUGGLERBOT_BASE_PATH, 'triggers')
 if not os.path.exists(JUGGLERBOT_TRIGGER_DIR):
     os.mkdir(JUGGLERBOT_TRIGGER_DIR)
 
-# cleanup files in the trigger dir older than a week to keep things tidy
+# cleanup files in the trigger dir older than a day to keep things tidy
 for fn in os.listdir(JUGGLERBOT_TRIGGER_DIR):
     fn2 = os.path.join(JUGGLERBOT_TRIGGER_DIR, fn)
     mtime = os.path.getmtime(fn2)
-    if time.time() - mtime > 86400 * 7:
+    if time.time() - mtime > 86400:
         print('cleaning up old file %s' % (fn2))
         os.remove(fn2)
 
