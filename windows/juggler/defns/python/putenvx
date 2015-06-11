@@ -1,1 +1,1 @@
-os.putenv(\e)
+os.environ[\e] = 
