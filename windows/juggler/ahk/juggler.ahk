@@ -27,7 +27,7 @@ Handle_emacs(lang, abbrev)
   Contents := Clipboard
   StartOfLineContext := Contents
   Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\" . lang . "\" . abbrev . "`n" . StartOfLineContext
+  FileContents := abbrev . "`n" . StartOfLineContext
   Clipboard =  ; Enable ClipWait to work
   FileAppend, %FileContents%, %Fn%
   ClipWait 2
@@ -56,7 +56,7 @@ Handle_VS(lang, abbrev)
   AutoTrim Off
   ClipboardOld = %ClipboardAll%
   Clipboard =  ; Enable ClipWait to work
-  Send, {Space}+{Home}+{Home}^c
+  Send, X+{Home}+{Home}^c
 
   ClipWait 2
   if ErrorLevel
@@ -68,7 +68,7 @@ Handle_VS(lang, abbrev)
   StartOfLineContext := SubStr(Contents, 1, -1)
   Send, ^v{Backspace}
   Fn := "c:\\temp\\jugglerbot\\triggers\\" . A_Now
-  FileContents := "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\" . lang . "\" . abbrev . "`n" . StartOfLineContext
+  FileContents := abbrev . "`n" . StartOfLineContext
   Clipboard =  ; Enable ClipWait to work
   FileAppend, %FileContents%, %Fn%
   ClipWait 2
@@ -97,210 +97,234 @@ Handle_VS(lang, abbrev)
 ;; Begin python
 #IfWinActive Emacs/Python
 :R:acceptx::
-  Handle_emacs("python", "acceptx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\acceptx")
   return
 :R:argparseargx::
-  Handle_emacs("python", "argparseargx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\argparseargx")
   return
 :R:argparseoptx::
-  Handle_emacs("python", "argparseoptx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\argparseoptx")
   return
 :R:argparsex::
-  Handle_emacs("python", "argparsex")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\argparsex")
   return
 :R:classx::
-  Handle_emacs("python", "classx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\classx")
   return
 :R:elapsedx::
-  Handle_emacs("python", "elapsedx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\elapsedx")
   return
 :R:elseifx::
-  Handle_emacs("python", "elseifx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\elseifx")
   return
 :R:elsex::
-  Handle_emacs("python", "elsex")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\elsex")
   return
 :R:exceptx::
-  Handle_emacs("python", "exceptx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\exceptx")
   return
 :R:fileexistsx::
-  Handle_emacs("python", "fileexistsx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\fileexistsx")
   return
 :R:forkx::
-  Handle_emacs("python", "forkx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\forkx")
   return
 :R:forx::
-  Handle_emacs("python", "forx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\forx")
   return
 :R:funcx::
-  Handle_emacs("python", "funcx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\funcx")
+  return
+:R:getenvx::
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\local\\getenvx")
   return
 :R:hostnamex::
-  Handle_emacs("python", "hostnamex")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\hostnamex")
   return
 :R:ifx::
-  Handle_emacs("python", "ifx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\ifx")
   return
 :R:importx::
-  Handle_emacs("python", "importx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\importx")
   return
 :R:joinx::
-  Handle_emacs("python", "joinx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\joinx")
+  return
+:R:local::
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\local")
   return
 :R:mainx::
-  Handle_emacs("python", "mainx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\mainx")
   return
 :R:mkdirx::
-  Handle_emacs("python", "mkdirx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\mkdirx")
+  return
+:R:mtimex::
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\mtimex")
   return
 :R:pdbx::
-  Handle_emacs("python", "pdbx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\pdbx")
   return
 :R:printx::
-  Handle_emacs("python", "printx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\printx")
+  return
+:R:putenvx::
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\putenvx")
   return
 :R:raisex::
-  Handle_emacs("python", "raisex")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\raisex")
   return
 :R:rmtreex::
-  Handle_emacs("python", "rmtreex")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\rmtreex")
   return
 :R:serversocketx::
-  Handle_emacs("python", "serversocketx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\serversocketx")
   return
 :R:signalx::
-  Handle_emacs("python", "signalx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\signalx")
   return
 :R:sleepx::
-  Handle_emacs("python", "sleepx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\sleepx")
   return
 :R:socketx::
-  Handle_emacs("python", "socketx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\socketx")
   return
 :R:t1x::
-  Handle_emacs("python", "t1x")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\t1x")
   return
 :R:t2x::
-  Handle_emacs("python", "t2x")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\t2x")
   return
 :R:tempdirx::
-  Handle_emacs("python", "tempdirx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\tempdirx")
   return
 :R:threadclassx::
-  Handle_emacs("python", "threadclassx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\threadclassx")
   return
 :R:timex::
-  Handle_emacs("python", "timex")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\timex")
   return
 :R:tryx::
-  Handle_emacs("python", "tryx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\tryx")
   return
 :R:unittestx::
-  Handle_emacs("python", "unittestx")
+  Handle_emacs("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\unittestx")
   return
 #IfWinActive
 #IfWinActive ahk_exe devenv.exe
 :R:acceptx::
-  Handle_VS("python", "acceptx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\acceptx")
   return
 :R:argparseargx::
-  Handle_VS("python", "argparseargx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\argparseargx")
   return
 :R:argparseoptx::
-  Handle_VS("python", "argparseoptx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\argparseoptx")
   return
 :R:argparsex::
-  Handle_VS("python", "argparsex")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\argparsex")
   return
 :R:classx::
-  Handle_VS("python", "classx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\classx")
   return
 :R:elapsedx::
-  Handle_VS("python", "elapsedx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\elapsedx")
   return
 :R:elseifx::
-  Handle_VS("python", "elseifx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\elseifx")
   return
 :R:elsex::
-  Handle_VS("python", "elsex")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\elsex")
   return
 :R:exceptx::
-  Handle_VS("python", "exceptx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\exceptx")
   return
 :R:fileexistsx::
-  Handle_VS("python", "fileexistsx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\fileexistsx")
   return
 :R:forkx::
-  Handle_VS("python", "forkx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\forkx")
   return
 :R:forx::
-  Handle_VS("python", "forx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\forx")
   return
 :R:funcx::
-  Handle_VS("python", "funcx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\funcx")
+  return
+:R:getenvx::
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\local\\getenvx")
   return
 :R:hostnamex::
-  Handle_VS("python", "hostnamex")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\hostnamex")
   return
 :R:ifx::
-  Handle_VS("python", "ifx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\ifx")
   return
 :R:importx::
-  Handle_VS("python", "importx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\importx")
   return
 :R:joinx::
-  Handle_VS("python", "joinx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\joinx")
+  return
+:R:local::
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\local")
   return
 :R:mainx::
-  Handle_VS("python", "mainx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\mainx")
   return
 :R:mkdirx::
-  Handle_VS("python", "mkdirx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\mkdirx")
+  return
+:R:mtimex::
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\mtimex")
   return
 :R:pdbx::
-  Handle_VS("python", "pdbx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\pdbx")
   return
 :R:printx::
-  Handle_VS("python", "printx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\printx")
+  return
+:R:putenvx::
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\putenvx")
   return
 :R:raisex::
-  Handle_VS("python", "raisex")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\raisex")
   return
 :R:rmtreex::
-  Handle_VS("python", "rmtreex")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\rmtreex")
   return
 :R:serversocketx::
-  Handle_VS("python", "serversocketx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\serversocketx")
   return
 :R:signalx::
-  Handle_VS("python", "signalx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\signalx")
   return
 :R:sleepx::
-  Handle_VS("python", "sleepx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\sleepx")
   return
 :R:socketx::
-  Handle_VS("python", "socketx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\socketx")
   return
 :R:t1x::
-  Handle_VS("python", "t1x")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\t1x")
   return
 :R:t2x::
-  Handle_VS("python", "t2x")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\t2x")
   return
 :R:tempdirx::
-  Handle_VS("python", "tempdirx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\tempdirx")
   return
 :R:threadclassx::
-  Handle_VS("python", "threadclassx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\threadclassx")
   return
 :R:timex::
-  Handle_VS("python", "timex")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\timex")
   return
 :R:tryx::
-  Handle_VS("python", "tryx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\tryx")
   return
 :R:unittestx::
-  Handle_VS("python", "unittestx")
+  Handle_VS("python", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\python\\unittestx")
   return
 #IfWinActive
 
@@ -308,30 +332,36 @@ Handle_VS(lang, abbrev)
 ;; Begin globals
 #IfWinActive Emacs/
 :R:arrowsx::
-  Handle_emacs("global", "arrowsx")
+  Handle_emacs("global", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\global\\arrowsx")
   return
 :R:awkcx::
-  Handle_emacs("global", "awkcx")
+  Handle_emacs("global", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\global\\awkcx")
+  return
+:R:htmlinputx::
+  Handle_emacs("global", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\global\\htmlinputx")
   return
 :R:htmlx::
-  Handle_emacs("global", "htmlx")
+  Handle_emacs("global", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\global\\htmlx")
   return
 :R:shebangpyx::
-  Handle_emacs("global", "shebangpyx")
+  Handle_emacs("global", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\global\\shebangpyx")
   return
 #IfWinActive
 #IfWinActive ahk_exe devenv.exe
 :R:arrowsx::
-  Handle_VS("global", "arrowsx")
+  Handle_VS("global", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\global\\arrowsx")
   return
 :R:awkcx::
-  Handle_VS("global", "awkcx")
+  Handle_VS("global", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\global\\awkcx")
+  return
+:R:htmlinputx::
+  Handle_VS("global", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\global\\htmlinputx")
   return
 :R:htmlx::
-  Handle_VS("global", "htmlx")
+  Handle_VS("global", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\global\\htmlx")
   return
 :R:shebangpyx::
-  Handle_VS("global", "shebangpyx")
+  Handle_VS("global", "c:\\Users\\ruttbe\\Documents\\GitHub\\smutils\\windows\\juggler\\defns\\global\\shebangpyx")
   return
 #IfWinActive
 ;; JUGGLER CONTROL BLOCK STOP

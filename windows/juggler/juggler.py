@@ -9,6 +9,8 @@ JUGGLER_DEFNS = os.getenv("JUGGLER_DEFNS")
 JUGGLER_AUTOHOTKEY_SCRIPT = os.getenv("JUGGLER_AUTOHOTKEY_SCRIPT")
 
 VS_window_signature = 'ahk_exe devenv.exe'
+# VS_window_signature = 'ahk_class HwndWrapper'
+# VS_window_signature = 'Microsoft Visual Studio'
 
 # --------------------------
 
@@ -18,21 +20,25 @@ assert JUGGLER_AUTOHOTKEY_SCRIPT
 
 langs = 'global python javascript'.split()
 
-# map from lang to abbrev to text
+# map from lang to abbrev to the file the backs the abbrev
 autohotkey_defns = collections.defaultdict(dict)
 
 def process_lang(lang):
     for fn in os.listdir(os.path.join(JUGGLER_DEFNS, lang)):
         fn2 = os.path.join(JUGGLER_DEFNS, lang, fn)
-        with open(fn2) as f:
-            txt = f.read()
-            autohotkey_defns[lang][fn] = txt
+        autohotkey_defns[lang][fn] = fn2
+    local_dir = os.path.join(JUGGLER_DEFNS, lang, 'local')
+    if os.path.exists(local_dir):
+        for fn in os.listdir(local_dir):
+            fn2 = os.path.join(local_dir, fn)
+            autohotkey_defns[lang][fn] = fn2
     print autohotkey_defns
 
 def get_single_expansion(editor, lang, abbrev):
     cblk = ''
     cblk += ':R:%s::\n' % (abbrev)
-    cblk += '  Handle_%s("%s", "%s")\n' % (editor, lang, abbrev)
+    cblk += '  Handle_%s("%s", "%s")\n' % \
+            (editor, lang, autohotkey_defns[lang][abbrev].replace('\\','\\\\'))
     cblk += '  return\n'
     return cblk
 
@@ -70,7 +76,7 @@ def writeout_ahk_scripts():
         if editor == 'emacs':
             out += '  SendInput, !xjuggler-copy-start-of-line-context{Enter}\n'
         elif editor == 'VS':
-            out += '  Send, {Space}+{Home}+{Home}^c\n'
+            out += '  Send, X+{Home}+{Home}^c\n'
         out += """
   ClipWait 2
   if ErrorLevel
@@ -86,8 +92,7 @@ def writeout_ahk_scripts():
             out += '  StartOfLineContext := SubStr(Contents, 1, -1)\n'
             out += '  Send, ^v{Backspace}\n'
         out += '  Fn := "c:\\\\temp\\\\jugglerbot\\\\triggers\\\\" . A_Now\n'
-        out += '  FileContents := "%s\\" . lang . "\\" . abbrev . "`n" . StartOfLineContext\n' % \
-               (os.path.join(JUGGLER_DEFNS).replace('\\','\\\\'))
+        out += '  FileContents := abbrev . "`n" . StartOfLineContext\n'
         out += '  Clipboard =  ; Enable ClipWait to work\n'
         out += '  FileAppend, %FileContents%, %Fn%\n'
         out += """  ClipWait 2
