@@ -1,0 +1,11 @@
+class \e(threading.Thread):
+    def __init__(self, cmd, q):
+        threading.Thread.__init__(self)
+	self.cmd = cmd
+	self.q = q
+    def run(self):
+    	try:
+            output = subprocess.check_output(self.cmd)
+	    q.put((True, output))
+	except Exception as e:
+            q.put((False, e))
