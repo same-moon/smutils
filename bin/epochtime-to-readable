@@ -3,4 +3,9 @@
 import sys
 import datetime
 
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("epochtime", type=float, help="an epoch time you want to see the human readable form of")
+args = parser.parse_args()
+
 print datetime.datetime.fromtimestamp(float(sys.argv[1]))
