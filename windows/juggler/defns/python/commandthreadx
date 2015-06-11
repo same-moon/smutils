@@ -1,9 +1,10 @@
-class \e(threading.Thread):
+class CommandThread(threading.Thread):
     def __init__(self, cmd, q):
         threading.Thread.__init__(self)
 	self.cmd = cmd
 	self.q = q
     def run(self):
+        "Run the command in a subprocess, send the queue the (success, result)"
     	try:
             output = subprocess.check_output(self.cmd)
 	    q.put((True, output))
