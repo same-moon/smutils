@@ -1,1 +1,1 @@
-parser.add_argument("-\e", "--", action="store_true", help="")
+parser.add_argument( "-\e", "--", action="store_true", help="" )

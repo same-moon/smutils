@@ -1,3 +1,3 @@
-class \e(object):
-    def __init__(self):
+class \e( object ):
+    def __init__( self ):
         pass
