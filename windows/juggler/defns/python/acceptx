@@ -1,1 +1,1 @@
-(csock, addr) = ssock.accept()
+( csock, addr ) = ssock.accept()
