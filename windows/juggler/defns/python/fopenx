@@ -1,1 +1,1 @@
-f = open( \e, 'r' )
+f = open( \e, 'wb'/'rb' )
