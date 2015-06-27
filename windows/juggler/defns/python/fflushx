@@ -1,0 +1,2 @@
+f.flush()
+os.fsync( f.fileno() )
