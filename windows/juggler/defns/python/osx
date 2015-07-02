@@ -1,0 +1,1 @@
+platform.system() in [ \e'Windows', 'Linux' ]
