@@ -24,10 +24,12 @@ cmd = []
 
 if re.search('(\.tar\.gz|\.tgz)$', fn):
     cmd = ['tar', 'xzvf', fn]
-elif re.search('\.tar\.bz$', fn):
+elif re.search('\.tar\.bz2$', fn):
     cmd = ['tar', 'xjvf', fn]
 elif re.search('\.tar\.xz$', fn):
     cmd = ['tar', 'xJvf', fn]
+elif re.search('\.tar$', fn):
+    cmd = ['tar', 'xvf', fn]
 else:
     raise RuntimeError, 'ERROR: unknown file type for %s' % (fn)
 if toc_mode:
