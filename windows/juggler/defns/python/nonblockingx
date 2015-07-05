@@ -1,0 +1,2 @@
+prev_flags = fcntl.fcntl(\eFD, fcntl.F_GETFL)
+fcntl.fcntl(FD, fcntl.F_SETFL, prev_flags | os.O_NONBLOCK)
