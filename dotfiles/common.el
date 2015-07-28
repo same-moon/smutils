@@ -112,6 +112,7 @@
 (define-key shell-mode-map [(meta .)] 'comint-insert-previous-argument)
 
 ;; MISC section
+(require 'bookmark)
 (setq bookmark-save-flag 1)
 
 (defun my-rename-file (new-fn)
