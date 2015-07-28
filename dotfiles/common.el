@@ -28,6 +28,7 @@
 (global-set-key [(control c) (r)] 'my-rename-file)
 (global-set-key [(control c) (i)] 'indent-region)
 (global-set-key [(control c) (a)] 'align)
+(global-set-key [(control c) (o)] 'occur)
 (global-set-key (kbd "M-;") 'comment-or-uncomment-region)
 (global-set-key (kbd "<S-tab>") 'comint-dynamic-complete-filename)
 (global-set-key (kbd "C-x v -") 'ediff-revision)
@@ -111,6 +112,8 @@
 (define-key shell-mode-map [(meta .)] 'comint-insert-previous-argument)
 
 ;; MISC section
+(setq bookmark-save-flag 1)
+
 (defun my-rename-file (new-fn)
   (interactive "sNew Filename: ")
   (let* ((old-fn (buffer-file-name))
