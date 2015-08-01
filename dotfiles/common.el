@@ -112,6 +112,12 @@
 (define-key shell-mode-map [(meta .)] 'comint-insert-previous-argument)
 
 ;; MISC section
+;; fix copy/paste issues
+(setq select-active-regions nil)
+(setq mouse-drag-copy-region t)
+(global-set-key [mouse-2] 'mouse-yank-at-click)
+(setq mouse-yank-at-point t)
+
 (require 'bookmark)
 (setq bookmark-save-flag 1)
 
