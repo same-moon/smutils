@@ -7,6 +7,6 @@ class CommandThread( threading.Thread ):
         "Run the command in a subprocess, send the queue the ( success, result )"
         try:
             output = subprocess.check_output( self.cmd )
-            self.q.put( (True, output) )
+            self.q.put( ( True, output ) )
         except Exception as e:
-            self.q.put( (False, e) )
+            self.q.put( ( False, e ) )
