@@ -1,3 +1,5 @@
+sys.stdout.flush()
+sys.stderr.flush()
 pid = os.fork()
 if pid == 0: # child
     \esys.stdout.write( "I am child pid %d\n" % ( os.getpid() ) )
