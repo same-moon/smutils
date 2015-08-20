@@ -25,6 +25,7 @@ autohotkey_defns = collections.defaultdict(dict)
 
 def process_lang(lang):
     for fn in os.listdir(os.path.join(JUGGLER_DEFNS, lang)):
+        if fn == 'local': continue
         fn2 = os.path.join(JUGGLER_DEFNS, lang, fn)
         autohotkey_defns[lang][fn] = fn2
     local_dir = os.path.join(JUGGLER_DEFNS, lang, 'local')
