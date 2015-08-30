@@ -64,14 +64,15 @@
 	  (delq nil
 		(mapcar
 		 (lambda (b)
-		   (let* ((bfn (buffer-file-name b))
-			  (triplet (list (buffer-name b) 'buf bfn)))
-		     (when bfn
-		       (puthash bfn triplet canonical-fn-hash))
-		     ;; When I need a meaningless value somewhere, I
-		     ;; use 'bubba.  I could not tell you why...
-		     (puthash (buffer-name b) 'bubba choosename-hash)
-		     triplet))
+		   (if (not (minibufferp b))
+		       (let* ((bfn (buffer-file-name b))
+			      (triplet (list (buffer-name b) 'buf bfn)))
+			 (when bfn
+			   (puthash bfn triplet canonical-fn-hash))
+			 ;; When I need a meaningless value somewhere, I
+			 ;; use 'bubba.  I could not tell you why...
+			 (puthash (buffer-name b) 'bubba choosename-hash)
+			 triplet)))
 		 (buffer-list))))
 
     ;; add in all the bookmarks, but don't populate canonical-fn-hash,
