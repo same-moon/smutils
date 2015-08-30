@@ -45,6 +45,9 @@
 
 ;;; Code:
 
+(require 'filecache)
+(require 'bookmark)
+
 (defun switcheroo ()
   (interactive)
   (let ((choices nil)
@@ -144,7 +147,7 @@
 	(bookmark-jump (substring (car triplet)
 				  0
 				  (- 0 (length " (from bookmark)")))))
-       ((eq (cadr triplet) 'fc) (find-file (caddr triplet)))
+       ((eq (cadr triplet) 'fc) (find-file (car (cdr (cdr triplet)))))
        (t (error "Internal error in switcheroo"))))))
 
 (global-set-key (kbd "C-x b") 'switcheroo)
