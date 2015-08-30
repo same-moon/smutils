@@ -31,8 +31,10 @@
 ;; Inspired by iswitchb-fc.el (written by the same author), and
 ;; the marking of iswitchb.el as obselete in emacs 24.4.
 
-;; To use, place the file in your load-path and add
+;; To use, place the file in your load-path and add the below lines:
 
+;; (require 'bookmark)
+;; (bookmark-maybe-load-default-file)
 ;; (require 'switcheroo)
 
 ;; to your ~/.emacs.  In doing so it will take over the key binding of
