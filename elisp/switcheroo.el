@@ -1,4 +1,4 @@
-;;; hll.el --- interactively toggle highlighting of lines
+;;; switcheroo.el --- iswitchb/ido-like switching to buffers, bookmarks and filecache entries
 
 ;; Copyright (C) 2015  Free Software Foundation, Inc.
 
