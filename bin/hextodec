@@ -1,0 +1,4 @@
+#!/bin/sh
+UPPERIN=`echo $1 | awk '{print toupper($0)}'`
+echo "ibase=16; $UPPERIN"  | bc
+UPPERIN=
