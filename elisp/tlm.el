@@ -59,7 +59,10 @@
 			 x
 			 "\")"))))
 	       (cdr (assoc 'files defns)))))
-  (message "files are %s" files)
+  (when (boundp 'tlm-ops-menu)
+    (define-key global-map [menu-bar ops] nil))
+  (when (boundp 'tlm-files-menu)
+    (define-key global-map [menu-bar files] nil))
   (easy-menu-define tlm-ops-menu global-map
     "Menu for frequently accessed commands."
     (cons "Ops" ops))
