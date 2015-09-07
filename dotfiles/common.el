@@ -327,7 +327,7 @@ from string."
 
 (defun dired-here ()
   (interactive)
-  (dired default-director))
+  (dired default-directory))
 
 (defun revisit-file ()
   (interactive)
