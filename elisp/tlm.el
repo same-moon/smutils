@@ -22,8 +22,18 @@
 ;;; Commentary:
 
 ;; This package adds top level menu items to your Emacs, one for Files
-;; and one for Actions.  Reads from ~/.emacs-tlm which is a lisp data
-;; structure representing files and actions.
+;; and one for Actions.  Reads from ~/.emacs-tlm which is a JSON
+;; encoded data structure representing files and actions.  A sample
+;; such file might be:
+;;
+;; { "ops": [
+;;     [ "Dired here", "dired-here" ],
+;;     [ "Copy buffer to clipboard", "copy-buffer-to-clipboard" ]
+;;   ],
+;;   "files": [
+;;       "~/.emacs",
+;;       "~/.bash_profile"
+;;   ] }
 
 ;; To use, place the file in your load-path and add the below lines:
 
