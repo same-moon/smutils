@@ -1,0 +1,5 @@
+(function($){ // create private scope for $
+    $(document).ready(function() {
+        \e
+    });
+})(jQuery);
