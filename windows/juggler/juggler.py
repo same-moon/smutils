@@ -137,6 +137,10 @@ def writeout_ahk_scripts():
             for abbrev in sorted(abbrevs.keys()):
                 cblk += get_single_expansion('emacs', lang, abbrev)
             cblk += '#IfWinActive\n'
+            cblk += '#IfWinActive Emacs/Inferior Python\n'
+            for abbrev in sorted(abbrevs.keys()):
+                cblk += get_single_expansion('emacs', lang, abbrev)
+            cblk += '#IfWinActive\n'
             cblk += '#IfWinActive %s\n' % (VS_window_signature)
             for abbrev in sorted(abbrevs.keys()):
                 cblk += get_single_expansion('VS', lang, abbrev)
