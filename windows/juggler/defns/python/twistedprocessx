@@ -11,11 +11,11 @@ class MyProcessProtocol( protocol.ProcessProtocol ):
         print "errReceived! with %d bytes!" % len(data)
     def processEnded( self, status ):
         if isinstance( status.value, ProcessDone ):
-	    print "INFO: process exited normally"
-	elif isinstance( status.value, ProcessTerminated ):
-	    print "WARNING:  process exited abnormally"
-	else:
-	    print "ERROR: unexpected status"
+            print "INFO: process exited normally"
+        elif isinstance( status.value, ProcessTerminated ):
+            print "WARNING:  process exited abnormally"
+        else:
+            print "ERROR: unexpected status"
 
 processProtocol = MyProcessProtocol()
 cmdline = [ \e ]
