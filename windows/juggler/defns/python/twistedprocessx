@@ -1,0 +1,23 @@
+from twisted.internet.error import ProcessDone, ProcessTerminated
+
+class MyProcessProtocol( protocol.ProcessProtocol ):
+    def __init__( self ):
+        pass
+    def connectionMade(self):
+        pass
+    def outReceived(self, data):
+        print "outReceived! with %d bytes!" % len(data)
+    def errReceived(self, data):
+        print "errReceived! with %d bytes!" % len(data)
+    def processEnded( self, status ):
+        if isinstance( status.value, ProcessDone ):
+	    print "INFO: process exited normally"
+	elif isinstance( status.value, ProcessTerminated ):
+	    print "WARNING:  process exited abnormally"
+	else:
+	    print "ERROR: unexpected status"
+
+processProtocol = MyProcessProtocol()
+cmdline = [ \e ]
+reactor.spawnProcess( processProtocol, cmdline[ 0 ], args=cmdline,
+                      env=os.environ )
