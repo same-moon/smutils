@@ -1,1 +1,1 @@
-collections.namedtuple( CLASSNAME, FIELDS )
+collections.namedtuple( \eCLASSNAME, FIELDS )
