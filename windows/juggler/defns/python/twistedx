@@ -1,0 +1,8 @@
+from twisted.internet import reactor, defer
+
+@defer.inlineCallbacks
+def go():
+    pass
+
+reactor.callWhenRunning( go )
+reactor.run()
