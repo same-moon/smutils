@@ -17,7 +17,6 @@ class MyProcessProtocol( protocol.ProcessProtocol ):
         else:
             print "ERROR: unexpected status"
 
-processProtocol = MyProcessProtocol()
+proto = MyProcessProtocol()
 cmdline = [ \e ]
-reactor.spawnProcess( processProtocol, cmdline[ 0 ], args=cmdline,
-                      env=os.environ )
+reactor.spawnProcess( proto, cmdline[ 0 ], args=cmdline, env=os.environ )
