@@ -1,1 +1,5 @@
-datetime.datetime.utcfromtimestamp( \e ) / time.mktime( dt.timetuple() )
+# epoch seconds to aware datetime
+datetime.datetime.fromtimestamp( EPOCHSECONDS, tz=pytz.UTC )
+
+# aware datetime to epoch seconds
+calendar.timegm( LOCALIZED_DT.utctimetuple() )
