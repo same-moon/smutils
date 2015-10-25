@@ -10,7 +10,7 @@ tz_UTC = pytz.utc
 # localize a naive datetime
 tz_XYZ.localize( naive_dt )
 
-# convert non-naive (i.e. localized) datetime to localized (only UTC
-# is safe for arithmetic unless you do dt.normalize after arithmetic)
+# convert non-naive (i.e. localized) datetime to localized in another timezone
+# (only UTC is OK for arithmetic unless you do dt.normalize() after arithmetic)
 dt.astimezone( tz_UTC )
 dt.astimezone( tz_NYC )
