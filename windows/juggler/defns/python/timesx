@@ -1,3 +1,4 @@
+----------------------------------------------------------------------------
 # a few std definitions
 tz_NYC = pytz.timezone( 'America/New_York' )
 tz_LDN = pytz.timezone( 'Europe/London' )
@@ -8,9 +9,10 @@ tz_SYD = pytz.timezone( 'Australia/Sydney' )
 tz_UTC = pytz.utc
 
 # localize a naive datetime
-tz_XYZ.localize( naive_dt )
+dt = tz_XYZ.localize( naive_dt )
 
 # convert non-naive (i.e. localized) datetime to localized in another timezone
 # (only UTC is OK for arithmetic unless you do dt.normalize() after arithmetic)
-dt.astimezone( tz_UTC )
-dt.astimezone( tz_NYC )
+dt = dt.astimezone( tz_UTC )
+dt = dt.astimezone( tz_NYC )
+----------------------------------------------------------------------------
