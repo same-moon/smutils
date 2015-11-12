@@ -63,7 +63,7 @@ def handle_trigger(fn):
         if n == 0:
             lines2.append(line)
         else:
-            lines2.append(leading_context + line)
+            lines2.append(' ' * len( leading_context ) + line)
         n += 1
     abbrev_text = ''.join(lines2)
 
