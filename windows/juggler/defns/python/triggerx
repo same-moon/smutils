@@ -1,0 +1,1 @@
+reactor.addSystemEventTrigger( 'before', 'shutdown', \eFUNC )
