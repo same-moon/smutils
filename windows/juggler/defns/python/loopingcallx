@@ -1,0 +1,3 @@
+from twisted.internet.task import LoopingCall
+looper = LoopingCall( \eFUNC )
+looper.start( 60.0 )
