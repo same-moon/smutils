@@ -1,1 +1,1 @@
-os.symlink( \eSOURCE, LINK_NAME )
+os.symlink( \eTARGET, LINK_NAME )

@@ -3,3 +3,6 @@ datetime.datetime.fromtimestamp( EPOCHSECONDS, tz=pytz.UTC )
 
 # aware datetime to epoch seconds
 calendar.timegm( LOCALIZED_DT.utctimetuple() )
+
+# localize a naive datetime
+ldt = pytz.UTC.localize( ndt )

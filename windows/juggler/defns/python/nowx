@@ -1,1 +1,1 @@
-now = datetime.datetime.now( tz=pytz.UTC )
+datetime.datetime.now( tz=pytz.UTC )
