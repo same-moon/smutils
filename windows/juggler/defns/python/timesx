@@ -9,7 +9,7 @@ tz_SYD = pytz.timezone( 'Australia/Sydney' )
 tz_UTC = pytz.utc
 
 # localize a naive datetime
-dt = tz_XYZ.localize( naive_dt )
+dt = tz_XYZ.localize( dt )
 
 # convert non-naive (i.e. localized) datetime to localized in another timezone
 # (only UTC is OK for arithmetic unless you do dt.normalize() after arithmetic)
