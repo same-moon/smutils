@@ -52,6 +52,8 @@
 
 (require 'compile)
 
+(setq next-error-recenter 10)
+
 ;;make -k isn't what I want
 (setq-default compile-command "make")
 (make-variable-buffer-local 'compile-command)
@@ -94,18 +96,33 @@
 (setq compilation-scroll-output t)
 (setq compilation-window-height 8)
 
+(defun my-lgrep-ignore-directories (orig-fun &rest args)
+  (let ((oldval (getenv "GREP_OPTIONS")))
+    (setenv "GREP_OPTIONS" "-d skip")
+    (let ((res (apply orig-fun args)))
+      (setenv "GREP_OPTIONS" oldval)
+      res)))
+(advice-add 'lgrep :around #'my-lgrep-ignore-directories)
+
 (setq compilation-finish-function
       (lambda (buf str)
 
-	(if (string-match "exited abnormally" str)
+        ;; handle grep differently - 0 is matches, 1 is no matches
+	(if (string= "*grep*" (buffer-name buf))
+            (if (and (string-match "exited abnormally" str)
+                     my-cleanup-compilation-window-flag)
+                (run-at-time 0.5 nil 'delete-windows-on buf))
 
-	    ;;there were errors
-	    (message "compilation errors, press C-x ` to visit")
+          ;; handle regular compile errors
+          (if (string-match "exited abnormally" str)
 
-	  ;;no errors, possibly make the compilation window go away
-	  (if my-cleanup-compilation-window-flag
-	      (run-at-time 0.5 nil 'delete-windows-on buf))
-	  (message "NO COMPILATION ERRORS!"))))
+              ;;there were errors
+              (message "compilation errors, press C-x ` to visit")
+            
+            ;;no errors, possibly make the compilation window go away
+            (if my-cleanup-compilation-window-flag
+                (run-at-time 0.5 nil 'delete-windows-on buf))
+            (message "NO COMPILATION ERRORS!")))))
 
 ;; SHELL section
 (require 'shell)
@@ -496,26 +513,3 @@ If passed a prefix arg, do save-buffers-kill-emacs."
 ;;     (not matched-ignored-filename)))
 ;; (setq backup-each-save-filter-function 'backup-each-save-filter)
 
-;; (add-to-list 'load-path "~/emacs/packages/scala-mode2-master")
-;; (require 'scala-mode2)
-;; 
-;; ;; load the ensime lisp code...
-;; (add-to-list 'load-path "~/emacs/packages/ensime_2.10.0-0.9.8.5/elisp")
-;; (require 'ensime)
-;; 
-;; ;; This step causes the ensime-mode to be started whenever
-;; ;; scala-mode is started for a buffer. You may have to customize this step
-;; ;; if you're not using the standard scala mode.
-;; (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(recentf-mode t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
