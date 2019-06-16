@@ -48,7 +48,7 @@
 (require 'filecache)
 (require 'bookmark)
 
-(defun switcheroo ()
+(defun switcheroo (other-window)
   (interactive)
   (let ((choices nil)
 	(choices-from-buffers nil)
@@ -143,15 +143,34 @@
     (let* ((ans (ido-completing-read "Switch to: " (mapcar 'car choices)))
 	   (triplet (assoc ans choices)))
       (cond
-       ((eq (cadr triplet) 'buf) (switch-to-buffer ans)) 
+       ((eq (cadr triplet) 'buf)
+        (if other-window
+            (switch-to-buffer-other-window ans)
+          (switch-to-buffer ans)))
        ((eq (cadr triplet) 'bookmark)
-	(bookmark-jump (substring (car triplet)
-				  0
-				  (- 0 (length " (from bookmark)")))))
-       ((eq (cadr triplet) 'fc) (find-file (car (cdr (cdr triplet)))))
+        (let ((bkmark (substring (car triplet)
+                                 0
+                                 (- 0 (length " (from bookmark)")))))
+          (if other-window
+              (bookmark-jump-other-window bkmark)
+            (bookmark-jump bkmark))))
+       ((eq (cadr triplet) 'fc)
+        (let ((fn (car (cdr (cdr triplet)))))
+          (if other-window
+              (find-file fn)
+            (find-file-other-window fn))))
        (t (error "Internal error in switcheroo"))))))
 
-(global-set-key (kbd "C-x b") 'switcheroo)
+(defun switcheroo-switch-this-window ()
+  (interactive)
+  (switcheroo nil))
+
+(defun switcheroo-switch-other-window ()
+  (interactive)
+  (switcheroo t))
+
+(global-set-key (kbd "C-x b") 'switcheroo-switch-this-window)
+(global-set-key (kbd "C-x 4 b") 'switcheroo-switch-other-window)
 
 (provide 'switcheroo)
 ;;; switcheroo.el ends here
